@@ -478,6 +478,59 @@ public class LinkedList {
             return false;
 
     }
+    //判断有环链表是否相交
+    public static boolean isIntersectWithCycle(LinkedList l1, LinkedList l2) {
+
+        return isIntersectWithCycle(l1.head, l2.head);
+    }
+
+    private static boolean isIntersectWithCycle(Node head1, Node head2) {
+
+
+        if (head1 == null || head2 == null)
+            return false;
+        //分别求出每一个链表上环上的一点
+        Node node1 = getCycleNode(head1);
+        Node node2 = getCycleNode(head2);
+
+        if (node1 == null || node2 == null)
+            return false;
+
+        if (node1 == node2)
+            return true;
+
+        Node current = node1.next;
+        while (current != node1) {
+
+            if (current == node2)
+                return true;
+            current = current.next;
+        }
+
+        return false;
+    }
+
+    //获取环上一点
+    private static Node getCycleNode(Node head) {
+
+        if (head == null || head.next == null)
+            return null;
+
+        Node first = head;
+        Node second = head;
+
+        while (first != null && first.next != null) {
+
+            first = first.next.next;
+            second = second.next;
+
+            if (first == second)
+                return first;
+        }
+
+        return null;
+
+    
 
     //求无环链表相交的第一个节点
     public static Node getIntersectNode(LinkedList l1, LinkedList l2) {
